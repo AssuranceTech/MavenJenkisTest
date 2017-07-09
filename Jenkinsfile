@@ -20,3 +20,18 @@ parallel one: {
         sh "${mvnHome}/bin/mvn test -Diterations=5"
     }
 }, failFast: true
+
+stage 'Code Quality'
+node('master') {
+    unstash 'working-copy'
+    step([$class: 'CheckStylePublisher'])
+    step([$class: 'FindBugsPublisher'])
+    step([$class: 'PmdPublisher'])
+}
+
+stage name: 'Deploy', concurrency: 1
+def path = input message: 'Where should I deploy this build?', parameters: [[$class: 'StringParameterDefinition', name: 'FILE_PATH']]
+node('master') {
+    unstash 'working-copy'
+    sh "cp target/example-1.0-SNAPSHOT.jar ${path}"
+}
