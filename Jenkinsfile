@@ -21,7 +21,7 @@ parallel one: {
     }
 }, failFast: true
 
-stage 'Code Quality'
+/*stage 'Code Quality'
 node('master') {
     unstash 'working-copy'
     step([$class: 'CheckStylePublisher'])
@@ -35,3 +35,4 @@ node('master') {
     unstash 'working-copy'
     sh "cp target/example-1.0-SNAPSHOT.jar ${path}"
 }
+*/
